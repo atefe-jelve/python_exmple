@@ -1,4 +1,5 @@
 from faulthandler import disable
+from itertools import count
 from sre_parse import State
 import tkinter as tk
 from tkinter import ttk
@@ -10,6 +11,7 @@ window = tk.Tk()
 list_of_score_user = []
 list_of_score_ai = []
 list_select = ['Rock' , 'Paper' ,'Scissors']
+count_play = 0
 
 window.title('Game : Rock , Paper ,Scissors')
 window.geometry("600x400")
@@ -78,28 +80,28 @@ scissors_btm = ttk.Button(
     command=select_scissors,
 )
 def start_game(user_select):
-    count_play = 20
-    while True:
-        ai_lbl['text'] = random.choice(list_select)
-        if ai_lbl['text'] == 'Rock' and user_select == 'Paper' or \
-            ai_lbl['text'] == 'Paper' and user_select == 'Scissors' or \
-                ai_lbl['text'] == 'Scissors' and user_select == 'Rock':
-            list_of_score_user.append(10)
-            result_lbl['text'] = f'You get "10"  sum of score is :{sum(list_of_score_user)} '
-            if count_play >=0:
-                count_play-=1
-                return
-            return False
-        elif ai_lbl['text'] == user_select:
-            result_lbl['text'] = 'egual select'
-            return True
-        else:
-            list_of_score_ai.append(10)
-            result_lbl['text'] = f'Ai get "10" sum of score is :{sum(list_of_score_ai)}'
-            if count_play >=0:
-                count_play-=1
-                return
-            return False
+    while count_play > 0:
+        while True:
+            ai_lbl['text'] = random.choice(list_select)
+            if ai_lbl['text'] == 'Rock' and user_select == 'Paper' or \
+                ai_lbl['text'] == 'Paper' and user_select == 'Scissors' or \
+                    ai_lbl['text'] == 'Scissors' and user_select == 'Rock':
+                list_of_score_user.append(10)
+                result_lbl['text'] = f'You get "10"  sum of score is :{sum(list_of_score_user)} '
+                if count_play >= 0:
+                    count_play -= 1
+                    return
+                return False
+            elif ai_lbl['text'] == user_select:
+                result_lbl['text'] = 'Tie'
+                return True
+            else:
+                list_of_score_ai.append(10)
+                result_lbl['text'] = f'Ai get "10" sum of score is :{sum(list_of_score_ai)}'
+                if count_play >= 0:
+                    count_play -= 1
+                    return
+                return False
 
 
 ai_lbl.grid(row=0 , column=0)
